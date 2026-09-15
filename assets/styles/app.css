@@ -57,3 +57,80 @@ footer {
     padding: 1rem;
     margin-top: 2rem;
 }
+
+/* Append to assets/styles/app.css */
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.book-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.book-card h2 {
+    margin-top: 0;
+}
+
+.book-card h2 a {
+    text-decoration: none;
+    color: #333;
+}
+
+.book-card h2 a:hover {
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+/* Book detail page */
+.book-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: #666;
+    margin: 0.5rem 0 1.5rem;
+    font-size: 0.95rem;
+}
+
+.genre-badge {
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 1.5rem 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    cursor: pointer;
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+    border: 1px solid #6c757d;
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}

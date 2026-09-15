@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books - Community Library{% endblock %}
+
+{% block body %}
+    <h1>Our collection ({{ books|length }} books)</h1>
+
+    <div class="book-grid">
+        {% for slug, book in books %}
+            <div class="book-card">
+                <h2>
+                    <a href="{{ path('app_book_show', {slug: slug}) }}">
+                        {{ book.title }}
+                    </a>
+                </h2>
+                <p>{{ book.author}} &mdash; {{ book.year }}</p>
+                <p><em>{{ book.genre }}</em></p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
