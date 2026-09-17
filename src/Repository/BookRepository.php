@@ -16,6 +16,28 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function search(array $criteria): array
+    {
+        $qb = $this->createQueryBuilder('b');
+
+        if (!empty($criteria['q'])) {
+            $qb->andWhere('b.title LIKE :q')
+                ->setParameter('q', '%' . $criteria['q'] . '%');
+        }
+
+        if (!empty($criteria['author'])) {
+            $qb->innerJoin('b.authors', 'a')
+                ->andWhere('a.name LIKE :author')
+                ->setParameter('author', '%' . $criteria['author'] . '%');
+        }
+
+        if (!empty($criteria['available'])) {
+            $qb->andWhere('b.available = true');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Book[] Returns an array of Book objects
 //     */

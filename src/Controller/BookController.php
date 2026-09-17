@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Form\BookSearchType;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -12,10 +14,16 @@ use Symfony\Component\Routing\Requirement\Requirement;
 class BookController extends AbstractController
 {
     #[Route('/books', name: 'app_book_index', methods: ['GET'])]
-    public function index(BookRepository $bookRepository): Response
+    public function index(BookRepository $bookRepository, Request $request): Response
     {
+        $form = $this->createForm(BookSearchType::class);
+        $form->handleRequest($request);
+
+        $criteria = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+
         return $this->render('book/index.html.twig', [
-            'books' => $bookRepository->findAll(),
+            'books' => $bookRepository->search($criteria),
+            'form' => $form,
         ]);
     }
 

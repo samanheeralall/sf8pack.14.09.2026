@@ -6,7 +6,19 @@
 {% block body %}
     <h1>Our collection ({{ books|length }} books)</h1>
 
-    <div class="book-grid">
+    <div class="listing-layout">
+
+        <aside class="listing-sidebar">
+            <h2>Filter</h2>
+            {{ form_start(form) }}
+            {{ form_row(form.q) }}
+            {{ form_row(form.author) }}
+            {{ form_row(form.available) }}
+            <button type="submit">Search</button>
+            {{ form_end(form) }}
+        </aside>
+
+         <div class="book-grid">
         {% for book in books %}
             <div class="book-card">
                 <h2>
@@ -24,5 +36,7 @@
                 </a>
             </div>
         {% endfor %}
+    </div>
+
     </div>
 {% endblock %}
