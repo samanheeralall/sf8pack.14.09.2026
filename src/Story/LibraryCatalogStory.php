@@ -5,6 +5,7 @@ namespace App\Story;
 use App\Factory\AuthorFactory;
 use App\Factory\BookFactory;
 use App\Factory\GenreFactory;
+use App\Factory\UserFactory;
 use Zenstruck\Foundry\Attribute\AsFixture;
 use Zenstruck\Foundry\Story;
 
@@ -13,6 +14,9 @@ final class LibraryCatalogStory extends Story
 {
     public function build(): void
     {
+        UserFactory::createOne(['email' => 'admin@library.local', 'roles' => ['ROLE_ADMIN']]);
+        UserFactory::createOne(['email' => 'reader@library.local']);
+
         $books = require dirname(__DIR__, 2) . '/fixtures/book_fixtures.php';
 
         BookFactory::createMany(\count($books), static function (int $i) use ($books): array {

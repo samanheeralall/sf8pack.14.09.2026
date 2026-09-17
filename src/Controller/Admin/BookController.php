@@ -4,14 +4,25 @@ namespace App\Controller\Admin;
 
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted("ROLE_ADMIN")]
 class BookController extends AbstractController
 {
+    #[Route('/admin/books', name: 'app_admin_books')]
+    public function index(BookRepository $bookRepository): Response
+    {
+        return $this->render('admin/book/admin_books_index.html.twig', [
+            'books' => $bookRepository->findAll(),
+        ]);
+    }
+
     #[Route('/admin/books/new', name: 'app_admin_book_new')]
     #[Route('/admin/books/{id}/edit', name: 'app_admin_book_edit')]
     public function save(
