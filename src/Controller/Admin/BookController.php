@@ -52,6 +52,7 @@ class BookController extends AbstractController
 
         return $this->render('admin/book/save.html.twig', [
             'form' => $form,
+            'book' => $book,
         ]);
     }
 }
