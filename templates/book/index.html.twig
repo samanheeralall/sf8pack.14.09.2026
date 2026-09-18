@@ -13,7 +13,9 @@
             {{ form_start(form) }}
             {{ form_row(form.q) }}
             {{ form_row(form.author) }}
-            {{ form_row(form.available) }}
+            {% is_granted('book.change_availability', book) %}
+                {{ form_row(form.available) }}
+            {% endif %}
             <button type="submit">Search</button>
             {{ form_end(form) }}
         </aside>
@@ -30,10 +32,11 @@
                     {{ book.authors|map(a => a.name)|join(', ') }}
                     &mdash; {{ book.publicationDate|date('Y') }}
                 </p>
-                {# Le lien Edit mis à jour avec les classes CSS #}
-                <a href="{{ path('app_admin_book_edit', {id: book.id}) }}" class="btn btn-outline-secondary">
-                    Edit
-                </a>
+                {% is_granted('book.edit_details', book) %}
+                    <a href="{{ path('app_admin_book_edit', {id: book.id}) }}" class="btn btn-outline-secondary">
+                        Edit
+                    </a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
