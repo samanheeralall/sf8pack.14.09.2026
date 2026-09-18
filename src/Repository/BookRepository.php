@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Search\BookSearchCriteria;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,22 +17,23 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function search(array $criteria): array
+    public function search(BookSearchCriteria $criteria): array
     {
         $qb = $this->createQueryBuilder('b');
 
-        if (!empty($criteria['q'])) {
-            $qb->andWhere('b.title LIKE :q')
-                ->setParameter('q', '%' . $criteria['q'] . '%');
+        // Author join — needed for the author filter OR for sorting by author
+        if ($criteria->author) {
+            $qb->innerJoin('b.authors', 'a');
         }
 
-        if (!empty($criteria['author'])) {
-            $qb->innerJoin('b.authors', 'a')
-                ->andWhere('a.name LIKE :author')
-                ->setParameter('author', '%' . $criteria['author'] . '%');
+        if ($criteria->q) {
+            $qb->andWhere('b.title LIKE :q')->setParameter('q', "%{$criteria->q}%");
+        }
+        if ($criteria->author) {
+            $qb->andWhere('a.name LIKE :author')->setParameter('author', "%{$criteria->author}%");
         }
 
-        if (!empty($criteria['available'])) {
+        if ($criteria->available) {
             $qb->andWhere('b.available = true');
         }
 

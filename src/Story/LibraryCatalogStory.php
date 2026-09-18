@@ -15,7 +15,9 @@ final class LibraryCatalogStory extends Story
     public function build(): void
     {
         UserFactory::createOne(['email' => 'admin@library.local', 'roles' => ['ROLE_ADMIN']]);
-        UserFactory::createOne(['email' => 'reader@library.local']);
+        UserFactory::createOne(['email' => 'manager@library.local', 'roles' => ['ROLE_MANAGER']]);
+        UserFactory::createOne(['email' => 'webmaster@library.local', 'roles' => ['ROLE_WEBMASTER']]);
+        UserFactory::createOne(['email' => 'librarian@library.local', 'roles' => ['ROLE_LIBRARIAN']]);
 
         $books = require dirname(__DIR__, 2) . '/fixtures/book_fixtures.php';
 
